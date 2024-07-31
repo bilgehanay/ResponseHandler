@@ -36,6 +36,7 @@ func LoadMessages() error {
 	viper.SetConfigFile(filePath)
 	viper.SetConfigType("json")
 
+	fmt.Println(filePath)
 	if err := viper.ReadInConfig(); err != nil {
 		return fmt.Errorf("could not open message file: %v", err)
 	}
