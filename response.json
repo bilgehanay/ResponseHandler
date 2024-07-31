@@ -1,0 +1,19 @@
+{
+  "errors": [
+    {
+      "message": "ITEM_NOT_FOUND",
+      "code": 3000,
+      "status": 404
+    },
+    {
+      "message": "ITEM_REQUIRED",
+      "code": 5007,
+      "status": 400
+    }
+  ],
+  "success": {
+    "message": "OK",
+    "code": 10000,
+    "status": 200
+  }
+}
