@@ -25,7 +25,7 @@ var errorMap map[int]Message
 var successMessage Message
 
 func LoadMessages() error {
-	viper.AddConfigPath("response.json")
+	viper.AddConfigPath("https://github.com/bilgehanay/ResponseHandler/blob/b1827352da8e9a350b08cf2956a1ad9b141dd09a/response.json")
 	viper.SetConfigType("json")
 
 	if err := viper.ReadInConfig(); err != nil {
