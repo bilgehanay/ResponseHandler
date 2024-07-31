@@ -1,12 +1,15 @@
 package ResponseHandler
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"os"
-	"path/filepath"
 )
+
+//go:embed response.json
+var responseFile []byte
 
 type Message struct {
 	Message string `json:"message"`
@@ -28,16 +31,9 @@ var successMessage Message
 
 func LoadMessages() error {
 
-	executablePath, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		return fmt.Errorf("could not get executable path: %v", err)
-	}
-	filePath := filepath.Join(executablePath, "response.json")
-	viper.SetConfigFile(filePath)
 	viper.SetConfigType("json")
 
-	fmt.Println(filePath)
-	if err := viper.ReadInConfig(); err != nil {
+	if err := viper.ReadConfig(bytes.NewReader(responseFile)); err != nil {
 		return fmt.Errorf("could not open message file: %v", err)
 	}
 
