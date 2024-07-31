@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"os"
+	"path/filepath"
 )
 
 type Message struct {
@@ -25,7 +27,13 @@ var errorMap map[int]Message
 var successMessage Message
 
 func LoadMessages() error {
-	viper.AddConfigPath("https://github.com/bilgehanay/ResponseHandler/blob/b1827352da8e9a350b08cf2956a1ad9b141dd09a/response.json")
+
+	executablePath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		return fmt.Errorf("could not get executable path: %v", err)
+	}
+	filePath := filepath.Join(executablePath, "response.json")
+	viper.SetConfigFile(filePath)
 	viper.SetConfigType("json")
 
 	if err := viper.ReadInConfig(); err != nil {
