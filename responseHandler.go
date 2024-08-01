@@ -58,7 +58,7 @@ func New() *Response {
 	}
 }
 
-func (r Response) SendError(c *gin.Context, code int) {
+func (r *Response) SendError(c *gin.Context, code int) {
 	err := response[code]
 	r.Message = err.Message
 	r.Code = code
@@ -66,7 +66,7 @@ func (r Response) SendError(c *gin.Context, code int) {
 	return
 }
 
-func (r Response) SendSuccess(c *gin.Context) {
+func (r *Response) SendSuccess(c *gin.Context) {
 	r.Success = true
 	r.Message = "OK"
 	r.Code = 10000
