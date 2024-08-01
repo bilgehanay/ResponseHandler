@@ -1,5 +1,5 @@
 {
-  "errors": [
+  "handler": [
     {
       "message": "ITEM_NOT_FOUND",
       "code": 3000,
@@ -9,11 +9,11 @@
       "message": "ITEM_REQUIRED",
       "code": 5007,
       "status": 400
+    },
+    {
+      "message": "OK",
+      "code": 10000,
+      "status": 200
     }
-  ],
-  "success": {
-    "message": "OK",
-    "code": 10000,
-    "status": 200
-  }
+  ]
 }
