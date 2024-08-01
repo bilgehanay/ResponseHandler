@@ -1,9 +1,12 @@
 package ResponseHandler
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"net/http"
+	"path/filepath"
+	"runtime"
 )
 
 type Message struct {
@@ -25,9 +28,17 @@ type Response struct {
 var response map[int]Message
 
 func LoadMessages() error {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		return fmt.Errorf("could not determine current file path")
+	}
+
+	// Get the directory containing the current file
+	dir := filepath.Dir(filename)
+
 	viper.SetConfigName("response")
 	viper.SetConfigType("json")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath(dir)
 
 	if err := viper.ReadInConfig(); err != nil {
 		return err
