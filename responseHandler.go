@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"net/http"
 	"path/filepath"
 	"runtime"
 )
@@ -65,22 +64,18 @@ func New() *Response {
 		Message: "",
 		TraceId: "",
 		Data:    nil,
+		Count:   0,
 		Errors:  nil,
 	}
 }
 
-func (r *Response) SendError(c *gin.Context, code int) {
-	err := response[code]
-	r.Message = err.Message
+func (r *Response) SendResponse(c *gin.Context, code int) {
+	res := response[code]
+	if code == 10000 {
+		r.Success = true
+	}
+	r.Message = res.Message
 	r.Code = code
-	c.JSON(err.Status, r)
-	return
-}
-
-func (r *Response) SendSuccess(c *gin.Context) {
-	r.Success = true
-	r.Message = "OK"
-	r.Code = 10000
-	c.JSON(http.StatusOK, r)
+	c.JSON(res.Status, r)
 	return
 }
