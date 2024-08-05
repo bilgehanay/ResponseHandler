@@ -26,7 +26,7 @@ type Response struct {
 
 var response map[int]Message
 
-func LoadMessages() error {
+func LoadMessages(serviceName string) error {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
 		return fmt.Errorf("could not determine current file path")
@@ -43,17 +43,21 @@ func LoadMessages() error {
 		return err
 	}
 
-	var data struct {
-		Handler []Message `json:"handler"`
-	}
+	var data map[string][]Message
 
 	if err := viper.Unmarshal(&data); err != nil {
 		return err
 	}
+	serviceMessages, ok := data[serviceName]
+	if !ok {
+		return fmt.Errorf("service %s not found in configuration", serviceName)
+	}
+
 	response = make(map[int]Message)
-	for _, msg := range data.Handler {
+	for _, msg := range serviceMessages {
 		response[msg.Code] = msg
 	}
+
 	return nil
 }
 

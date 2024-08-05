@@ -1,5 +1,5 @@
 {
-  "handler": [
+  "listing": [
     {
       "message": "ITEM_NOT_FOUND",
       "code": 3000,
@@ -7,6 +7,23 @@
     },
     {
       "message": "ITEM_REQUIRED",
+      "code": 5007,
+      "status": 400
+    },
+    {
+      "message": "OK",
+      "code": 10000,
+      "status": 200
+    }
+  ],
+  "favorite": [
+    {
+      "message": "FAVORITE_NOT_FOUND",
+      "code": 3000,
+      "status": 404
+    },
+    {
+      "message": "FAVORITE_REQUIRED",
       "code": 5007,
       "status": 400
     },
