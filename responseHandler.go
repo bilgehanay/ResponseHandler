@@ -1,11 +1,8 @@
 package ResponseHandler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"path/filepath"
-	"runtime"
 )
 
 type Message struct {
@@ -26,35 +23,24 @@ type Response struct {
 
 var response map[int]Message
 
-func LoadMessages(serviceName string) error {
-	_, filename, _, ok := runtime.Caller(0)
-	if !ok {
-		return fmt.Errorf("could not determine current file path")
-	}
+func LoadMessages(responsePath string) error {
 
-	// Get the directory containing the current file
-	dir := filepath.Dir(filename)
-
-	viper.SetConfigName("response")
-	viper.SetConfigType("json")
-	viper.AddConfigPath(dir)
+	viper.SetConfigFile(responsePath)
 
 	if err := viper.ReadInConfig(); err != nil {
 		return err
 	}
 
-	var data map[string][]Message
+	var data struct {
+		Response []Message `json:"response"`
+	}
 
 	if err := viper.Unmarshal(&data); err != nil {
 		return err
 	}
-	serviceMessages, ok := data[serviceName]
-	if !ok {
-		return fmt.Errorf("service %s not found in configuration", serviceName)
-	}
 
 	response = make(map[int]Message)
-	for _, msg := range serviceMessages {
+	for _, msg := range data.Response {
 		response[msg.Code] = msg
 	}
 
