@@ -70,12 +70,15 @@ func New() *Response {
 }
 
 func (r *Response) SendResponse(c *gin.Context, code int) {
-	res := response[code]
-	if code == 10000 {
-		r.Success = true
+	if res, ok := response[code]; ok {
+		if res.Status < 300 {
+			r.Success = true
+		}
+		r.Message = res.Message
+		r.Code = res.Code
+		c.JSON(res.Status, res)
+		return
 	}
-	r.Message = res.Message
-	r.Code = code
-	c.JSON(res.Status, r)
+	c.JSON(500, gin.H{})
 	return
 }
