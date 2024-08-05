@@ -80,7 +80,7 @@ func (r *Response) SendResponse(c *gin.Context, code int) {
 		}
 		r.Message = res.Message
 		r.Code = res.Code
-		c.JSON(res.Status, res)
+		c.JSON(res.Status, r)
 		return
 	}
 	c.JSON(500, gin.H{})
